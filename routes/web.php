@@ -31,21 +31,41 @@ Route::group([
     'prefix' => 'users',
     'as' => 'users.',
 ], function () {
+    Route::post('store', function () {
+        $request = request()->all();
+        $data = array_except($request, ['_token']);
+
+        $user = User::create($data);
+
+        return redirect()->route('users.index');
+    })->name('store');
+
     Route::get('create', function () {
-        $user = factory(User::class, 1)->make()->first();
-
-        // Facade
-        // Route::redirect('users.show');
-
-        // Helper
-        return redirect()->route('users.show')->with([
-            'user' => $user,
-        ]);
+        return view('users.create');
     })->name('create');
 
-    Route::get('show', function () {
-        dd(session()->get('user'));
+    Route::get('show/{user}', function (User $user) {
+        return view('users.show', [
+            'userData' => $user,
+        ]);
     })->name('show');
+
+    Route::get('/', function () {
+        $users = User::all();
+
+        return view('users.index', [
+            'users' => $users,
+        ]);
+    })->name('index');
+
+    Route::post('delete', function () {
+        $request = request()->all();
+        $user = User::find($request['id']);
+
+        $user->delete();
+
+        return redirect()->route('users.index');
+    })->name('delete');
 });
 
 Route::group([
