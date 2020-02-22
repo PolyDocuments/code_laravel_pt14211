@@ -51,6 +51,7 @@
                       <th>User Name</th>
                       <th>Birthday</th>
                       <th>Email</th>
+                      <th>Posts</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -61,11 +62,22 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->dob }}</td>
                             <td>{{ $user->email }}</td>
+                            <td>{{ $user->posts->count() }}</td>
                             <td>
                                 <a class="btn btn-primary col-md-2" href="#">Update</a>
-                                <button onclick="document.getElementById('delete-form').submit();" class="btn btn-danger" >Delete</button>
+                                <button
+                                  id="btn_delete_{{ $user->id }}"
+                                  class="btn btn-danger"
+                                >
+                                  Delete
+                                </button>
 
-                                <form id="delete-form" action="{{ route('users.delete') }}" method="POST" style="display: none;">
+                                <form
+                                  id="delete_form_{{ $user->id }}"
+                                  action="{{ route('users.delete') }}"
+                                  method="POST"
+                                  style="display: none;"
+                                >
                                     @csrf
                                     <input name="id" value="{{ $user->id }}" type="hidden"/>
                                 </form>
@@ -87,3 +99,14 @@
   </div>
   <!-- /.content-wrapper -->
 @endsection
+
+@push('scripts')
+<script>
+  $("button[id^='btn_delete_']").click(function (event) {
+    id = event.currentTarget.attributes.id.value.replace('btn_delete_', '');
+    console.log('id', id);
+    
+    $("#delete_form_" + id).submit();
+  });
+</script>
+@endpush
