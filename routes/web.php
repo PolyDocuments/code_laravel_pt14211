@@ -21,3 +21,4 @@ Route::get('hello_world', 'HelloController')->name('home.hello_world');
 Route::resource('users', 'UserController');
 
 Route::get('login', 'AuthController@getLoginForm');
+Route::post('login', 'AuthController@login')->name('auth.login');

@@ -74,12 +74,11 @@
 
                                 <form
                                   id="delete_form_{{ $user->id }}"
-                                  action="{{ route('users.delete') }}"
-                                  method="POST"
+                                  action="{{ route('users.destroy', $user->id) }}"
+                                  method="DELETE"
                                   style="display: none;"
                                 >
-                                    @csrf
-                                    <input name="id" value="{{ $user->id }}" type="hidden"/>
+                                  @csrf
                                 </form>
                             </td>
                         </tr>

@@ -38,11 +38,8 @@ class UserController extends Controller
         ]);
     }
 
-    public function delete()
+    public function delete(User $user)
     {
-        $request = request()->all();
-        $user = User::find($request['id']);
-
         $user->delete();
 
         return redirect()->route('users.index');
