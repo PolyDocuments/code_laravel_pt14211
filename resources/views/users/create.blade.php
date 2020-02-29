@@ -36,6 +36,14 @@
               <!-- form start -->
               <form role="form" method="POST" action="{{ route('users.store') }}">
               @csrf
+
+                @if($errors->count())
+                  <div class="bg-gradient-danger">
+                    @foreach($errors->all() as $error)
+                      <p>{{ $error }}</p>
+                    @endforeach
+                  </div>
+                @endif
                 <div class="card-body">
                   <div class="form-group">
                     <label>Full Name</label>

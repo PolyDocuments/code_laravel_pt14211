@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\Users\StoreRequest;
 use App\Models\User;
 
 class UserController extends Controller
@@ -21,9 +22,9 @@ class UserController extends Controller
         return view('users.create');
     }
 
-    public function store()
+    public function store(StoreRequest $request)
     {
-        $request = request()->all();
+        // $request = request()->all();
         $data = array_except($request, ['_token']);
 
         $user = User::create($data);

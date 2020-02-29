@@ -16,9 +16,17 @@ use App\Models\Post;
 
 Route::view('/', 'welcome');
 
-Route::get('hello_world', 'HelloController')->name('home.hello_world');
+Route::group([
+    'middleware' => [
+        'check_auth',
+    ],
+], function () {
+    Route::get('hello_world', 'HelloController')->name('home.hello_world');
 
-Route::resource('users', 'UserController');
+    Route::resource('users', 'UserController')->middleware([
+        'check_role_admin',
+    ]);
+});
 
 Route::get('login', 'AuthController@getLoginForm');
 Route::post('login', 'AuthController@login')->name('auth.login');

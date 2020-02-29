@@ -8,13 +8,21 @@
 
       <form action="{{ route('auth.login') }}" method="post">
         @csrf
+
+        @if(count($errors) > 0)
+          <div>
+            @foreach($errors->all() as $error)
+              <p>{{ $error }}</p>
+            @endforeach
+          </div>
+        @endif
+
         <div class="input-group mb-3">
           <input
             type="email"
             name="email"
             class="form-control"
             placeholder="Email"
-            required
           >
           <div class="input-group-append">
             <div class="input-group-text">
@@ -28,7 +36,6 @@
             name="password"
             class="form-control"
             placeholder="Password"
-            required
           >
           <div class="input-group-append">
             <div class="input-group-text">
